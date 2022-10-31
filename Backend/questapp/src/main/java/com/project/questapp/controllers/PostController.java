@@ -1,27 +1,33 @@
 package com.project.questapp.controllers;
 
 import com.project.questapp.entities.Post;
-import com.project.questapp.repositorys.IPostRepository;
+import com.project.questapp.requests.PostCreateRequest;
+import com.project.questapp.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/posts")
 public class PostController {
 
     @Autowired
-    private IPostRepository postRepository;
+    private PostService postService;
 
     @GetMapping
-    public List<Post> getAll() {
-        return postRepository.findAll();
+    public List<Post> getAllPosts(@RequestParam Optional<Post> userId){
+        return postService.getAllPosts(userId);
     }
 
     @PostMapping
-    public Post addPost(@RequestBody Post post) {
-        return postRepository.save(post);
+    public Post createOnePost(@RequestBody PostCreateRequest newPostRequest){
+        return postService.createOnePost(newPostRequest);
     }
 
+    @GetMapping("/{postId}")
+    public Post getOnePost(@PathVariable Long postId){
+        return postService.getOnePostById(postId);
+    }
 }
