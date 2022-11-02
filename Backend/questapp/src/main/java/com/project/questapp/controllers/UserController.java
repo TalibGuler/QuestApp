@@ -12,7 +12,7 @@ import java.util.Optional;
 @RequestMapping("/users")
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     public UserController (UserService userService){
         this.userService=userService;
